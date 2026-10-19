@@ -1,0 +1,5 @@
+raw_stitch/
+.system_generated/
+*.log
+.vscode/
+.idea/

@@ -1,0 +1,503 @@
+/* ==========================================================================
+   WEB ANNI QUIN - DESIGN SYSTEM & ANIMATIONS (OPTIMIZED)
+   Screen 2 Fidelity: State 2 - Bức Thư Tình & Gallery Kỷ Niệm
+   ========================================================================== */
+
+:root {
+  /* Color Palette */
+  --primary: #6e2334;
+  --primary-container: #8b3a4a;
+  --on-primary: #ffffff;
+  --on-primary-container: #ffb7c0;
+  --secondary: #8c4b55;
+  --secondary-container: #feaab6;
+  --on-secondary: #ffffff;
+  --on-secondary-container: #7a3c46;
+  --tertiary: #735c00;
+  --tertiary-container: #cba72f;
+  --tertiary-fixed: #ffe088;
+  --tertiary-fixed-dim: #e9c349;
+  --surface: #fff8f6;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f9f2f0;
+  --surface-container: #f3eceb;
+  --surface-container-high: #ede7e5;
+  --surface-container-highest: #e7e1df;
+  --surface-dim: #dfd9d7;
+  --background: #fff8f6;
+  --on-surface: #1d1b1a;
+  --on-surface-variant: #544244;
+  --outline: #877274;
+  --outline-variant: #d9c1c3;
+  --gold-foil: #d4af37;
+  --gold-light: #ffe088;
+
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-label: 'Montserrat', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--background);
+  color: var(--on-surface);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: var(--surface-container-low);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--outline-variant);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
+
+/* --------------------------------------------------------------------------
+   Ambient Atmosphere & Aura
+   -------------------------------------------------------------------------- */
+@keyframes gentlePulseGlow {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+.wax-aura {
+  animation: gentlePulseGlow 6s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* --------------------------------------------------------------------------
+   3D Perspective & Envelope Mechanics
+   -------------------------------------------------------------------------- */
+.perspective-container {
+  perspective: 1200px;
+}
+
+/* Flap 3D Flip */
+#envelope-flap {
+  transform-origin: top center;
+  transition: transform 0.75s cubic-bezier(0.34, 1.15, 0.64, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.flap-open {
+  transform: rotateX(180deg) !important;
+  z-index: 5 !important;
+}
+
+/* --------------------------------------------------------------------------
+   Wax Seal: Strictly Fixed Position & Realistic Dissolve
+   The wrapper is permanently locked at (top: 58%, left: 50%, translate -50%, -50%).
+   Button only animates internally center-outward so it NEVER shifts off target!
+   -------------------------------------------------------------------------- */
+#wax-seal-wrapper {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+  user-select: none;
+}
+
+#wax-seal-button {
+  position: relative;
+  width: 5.25rem;
+  height: 5.25rem;
+  border-radius: 9999px;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  transform-origin: center center;
+  transition: filter 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 10px 24px -4px rgba(110, 35, 52, 0.45), inset 0 2px 4px rgba(255, 255, 255, 0.3);
+  will-change: transform, opacity, filter;
+}
+
+@media (min-width: 640px) {
+  #wax-seal-button {
+    width: 6rem;
+    height: 6rem;
+  }
+}
+
+#wax-seal-button:hover {
+  filter: drop-shadow(0 0 16px rgba(233, 195, 73, 0.85)) brightness(1.08);
+}
+
+#wax-seal-button:focus-visible {
+  ring: 3px solid var(--tertiary-fixed);
+}
+
+/* Burst & Fade Animation Strictly in-place */
+@keyframes waxSealBreakInPlace {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    filter: drop-shadow(0 0 10px var(--tertiary-fixed));
+  }
+  35% {
+    transform: scale(1.1);
+    opacity: 0.9;
+    filter: drop-shadow(0 0 25px #ffe088) brightness(1.35);
+  }
+  70% {
+    transform: scale(1.2);
+    opacity: 0.4;
+    filter: drop-shadow(0 0 35px #ffe088) brightness(1.6);
+  }
+  100% {
+    transform: scale(1.28);
+    opacity: 0;
+    filter: drop-shadow(0 0 45px #ffe088) brightness(2);
+    pointer-events: none;
+  }
+}
+
+.seal-broken #wax-seal-button {
+  animation: waxSealBreakInPlace 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+  pointer-events: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   Letter Morphing & Expansion to Fullscreen
+   -------------------------------------------------------------------------- */
+#letter-peek {
+  transform-origin: center top;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.5s ease,
+              box-shadow 0.6s ease;
+  will-change: transform, opacity;
+}
+
+/* Step 3: Letter slides up out of envelope pocket */
+.letter-sliding-out {
+  transform: translateY(-60%) scale(1.02) !important;
+  box-shadow: 0 25px 60px -10px rgba(110, 35, 52, 0.35) !important;
+  z-index: 35 !important;
+}
+
+/* Step 4: Fullscreen Zoom & Morph */
+.letter-expanding-fullscreen {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  height: 100vh !important;
+  transform: none !important;
+  border-radius: 0px !important;
+  z-index: 9999 !important;
+  box-shadow: 0 30px 80px rgba(110, 35, 52, 0.45) !important;
+  transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  background-color: var(--background) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Falling Rose Petals & Sparkling Particles (Optimized)
+   -------------------------------------------------------------------------- */
+@keyframes petalFall {
+  0% {
+    transform: translate3d(0, -20px, 0) rotate(0deg) scale(0.7);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate3d(var(--x-end, 50px), 105vh, 0) rotate(var(--rot, 300deg)) scale(1.1);
+    opacity: 0;
+  }
+}
+
+.falling-petal {
+  position: fixed;
+  pointer-events: none;
+  animation: petalFall 3.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: transform, opacity;
+}
+
+/* Continuous Subtle Ambient Petals */
+@keyframes floatPetalSlow {
+  0% { transform: translate3d(0, -10px, 0) rotate(0deg); opacity: 0; }
+  15% { opacity: 0.6; }
+  85% { opacity: 0.4; }
+  100% { transform: translate3d(50px, 105vh, 0) rotate(260deg); opacity: 0; }
+}
+
+@keyframes floatPetalMedium {
+  0% { transform: translate3d(0, -10px, 0) rotate(15deg); opacity: 0; }
+  20% { opacity: 0.65; }
+  80% { opacity: 0.45; }
+  100% { transform: translate3d(-40px, 105vh, 0) rotate(-220deg); opacity: 0; }
+}
+
+.ambient-petal-1 { animation: floatPetalSlow 16s ease-in-out infinite; will-change: transform; }
+.ambient-petal-2 { animation: floatPetalMedium 20s ease-in-out infinite 4s; will-change: transform; }
+.ambient-petal-3 { animation: floatPetalSlow 18s ease-in-out infinite 8s; will-change: transform; }
+.ambient-petal-4 { animation: floatPetalMedium 22s ease-in-out infinite 12s; will-change: transform; }
+
+/* --------------------------------------------------------------------------
+   Vinyl Music Player & Interactive Seek Bar
+   -------------------------------------------------------------------------- */
+@keyframes spinRecord {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spinRecord 4s linear infinite;
+  will-change: transform;
+}
+
+.vinyl-paused {
+  animation-play-state: paused !important;
+}
+
+/* Custom Interactive Audio Seek Bar Slider */
+.music-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--surface-container-highest);
+  border-radius: 9999px;
+  outline: none;
+  transition: background 0.2s ease;
+}
+
+.music-slider:hover {
+  background: var(--outline-variant);
+}
+
+.music-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 2px solid var(--tertiary-fixed);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(110, 35, 52, 0.4);
+  transition: transform 0.15s ease;
+}
+
+.music-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+  background: var(--primary-container);
+}
+
+.music-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 2px solid var(--tertiary-fixed);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(110, 35, 52, 0.4);
+  transition: transform 0.15s ease;
+}
+
+.music-slider::-moz-range-thumb:hover {
+  transform: scale(1.3);
+}
+
+/* --------------------------------------------------------------------------
+   Climbing Watercolor Rose Borders (Left & Right)
+   -------------------------------------------------------------------------- */
+.rose-border-side {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 70px;
+  z-index: 25;
+  mix-blend-mode: multiply;
+  opacity: 0.9;
+  transition: opacity 0.8s ease;
+  user-select: none;
+  will-change: opacity;
+}
+
+@media (min-width: 640px) {
+  .rose-border-side {
+    width: 100px;
+    opacity: 0.92;
+  }
+}
+@media (min-width: 1024px) {
+  .rose-border-side {
+    width: 135px;
+    opacity: 0.95;
+  }
+}
+@media (min-width: 1440px) {
+  .rose-border-side {
+    width: 160px;
+  }
+}
+
+.rose-border-left {
+  left: 0;
+}
+
+.rose-border-right {
+  right: 0;
+  transform: scaleX(-1);
+}
+
+/* --------------------------------------------------------------------------
+   Polaroid Cards: Sized to Fit Photos Perfectly (No Captions)
+   -------------------------------------------------------------------------- */
+.polaroid-card {
+  background-color: #fffdfb;
+  border-radius: 6px;
+  padding: 0.875rem 0.875rem 1.15rem 0.875rem;
+  box-shadow: 0 10px 24px -4px rgba(61, 58, 57, 0.12), 0 3px 8px -2px rgba(61, 58, 57, 0.05);
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  will-change: transform;
+}
+
+.polaroid-card:hover {
+  transform: rotate(0deg) scale(1.025) translateY(-3px) !important;
+  box-shadow: 0 18px 36px -6px rgba(110, 35, 52, 0.2), 0 6px 14px -2px rgba(61, 58, 57, 0.07);
+  z-index: 20;
+}
+
+/* Image Wrapper tightly wrapping image */
+.polaroid-img-wrapper {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: var(--surface-container-high);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.polaroid-img-wrapper img {
+  width: 100%;
+  height: auto;
+  max-height: 540px;
+  object-fit: cover;
+  display: block;
+  border-radius: 3px;
+  transition: transform 0.4s ease;
+}
+
+.polaroid-card:hover .polaroid-img-wrapper img {
+  transform: scale(1.025);
+}
+
+/* Washi Tape Accent */
+.washi-tape {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%) rotate(1.5deg);
+  width: 6.5rem;
+  height: 1.4rem;
+  background-color: rgba(254, 170, 182, 0.85);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 2px 4px rgba(61, 58, 57, 0.12);
+  border-radius: 2px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.washi-tape-gold {
+  background-color: rgba(233, 195, 73, 0.8);
+  transform: translateX(-50%) rotate(-2deg);
+}
+
+.washi-tape-sage {
+  background-color: rgba(183, 110, 121, 0.8);
+  transform: translateX(-50%) rotate(-1deg);
+}
+
+/* Vintage Pushpin */
+.vintage-pin {
+  position: absolute;
+  top: -9px;
+  left: 1.25rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 35%, #ffe088 0%, #cba72f 50%, #735c00 100%);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.35);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.vintage-pin::after {
+  content: '';
+  position: absolute;
+  inset: 3.5px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+/* Gold Heart Sticker */
+.gold-heart-sticker {
+  position: absolute;
+  top: -11px;
+  right: 50%;
+  transform: translateX(50%);
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 9999px;
+  background: var(--tertiary-container);
+  color: var(--on-tertiary-container);
+  box-shadow: 0 3px 8px rgba(115, 92, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Love Counter Cards
+   -------------------------------------------------------------------------- */
+.counter-box {
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 8px;
+  padding: 0.875rem 0.5rem;
+  box-shadow: 0 4px 12px rgba(61, 58, 57, 0.04);
+  border: 1px solid rgba(217, 193, 195, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.counter-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(110, 35, 52, 0.1);
+  border-color: var(--secondary-container);
+}
